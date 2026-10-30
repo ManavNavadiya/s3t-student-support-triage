@@ -1,0 +1,112 @@
+{
+  "sbert+tfidf": {
+    "category": 0.55,
+    "category_detail": {
+      "C": 10,
+      "target_silent_error_rate": 0.05,
+      "target_reached": true,
+      "out_of_fold_accuracy": 0.839,
+      "table": [
+        {
+          "threshold": 0.4,
+          "flag_rate": 0.085,
+          "silent_error_rate": 0.098,
+          "accuracy_above": 0.893
+        },
+        {
+          "threshold": 0.5,
+          "flag_rate": 0.163,
+          "silent_error_rate": 0.068,
+          "accuracy_above": 0.919
+        },
+        {
+          "threshold": 0.6,
+          "flag_rate": 0.25,
+          "silent_error_rate": 0.031,
+          "accuracy_above": 0.959
+        },
+        {
+          "threshold": 0.7,
+          "flag_rate": 0.31,
+          "silent_error_rate": 0.014,
+          "accuracy_above": 0.98
+        },
+        {
+          "threshold": 0.8,
+          "flag_rate": 0.376,
+          "silent_error_rate": 0.006,
+          "accuracy_above": 0.99
+        },
+        {
+          "threshold": 0.9,
+          "flag_rate": 0.574,
+          "silent_error_rate": 0.001,
+          "accuracy_above": 0.998
+        },
+        {
+          "threshold": 0.95,
+          "flag_rate": 0.826,
+          "silent_error_rate": 0.0,
+          "accuracy_above": 1.0
+        }
+      ],
+      "used_as_review_trigger": true,
+      "threshold_that_met_target": 0.55
+    },
+    "urgency": 0.0,
+    "urgency_detail": {
+      "C": 0.1,
+      "target_silent_error_rate": 0.05,
+      "target_reached": true,
+      "out_of_fold_accuracy": 0.644,
+      "table": [
+        {
+          "threshold": 0.4,
+          "flag_rate": 0.253,
+          "silent_error_rate": 0.218,
+          "accuracy_above": 0.708
+        },
+        {
+          "threshold": 0.5,
+          "flag_rate": 0.735,
+          "silent_error_rate": 0.046,
+          "accuracy_above": 0.826
+        },
+        {
+          "threshold": 0.6,
+          "flag_rate": 0.948,
+          "silent_error_rate": 0.019,
+          "accuracy_above": 0.639
+        },
+        {
+          "threshold": 0.7,
+          "flag_rate": 0.99,
+          "silent_error_rate": 0.009,
+          "accuracy_above": 0.167
+        },
+        {
+          "threshold": 0.8,
+          "flag_rate": 1.0,
+          "silent_error_rate": 0.0,
+          "accuracy_above": null
+        },
+        {
+          "threshold": 0.9,
+          "flag_rate": 1.0,
+          "silent_error_rate": 0.0,
+          "accuracy_above": null
+        },
+        {
+          "threshold": 0.95,
+          "flag_rate": 1.0,
+          "silent_error_rate": 0.0,
+          "accuracy_above": null
+        }
+      ],
+      "used_as_review_trigger": false,
+      "threshold_that_met_target": 0.5
+    },
+    "method": "5-fold GroupKFold on training set, target silent-error rate 0.05; urgency trigger off",
+    "created": "2026-10-11T14:32:39.615320+00:00"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "_source": "docs/week5_report.md (Week 5), held-out test set n=299 and challenge set 28 in scope; model+rules, review threshold 0.40, core crisis lexicon",
+  "tolerance": {"macro_f1": 0.01, "review_rate": 0.01, "count": 2},
+  "models": {
+    "baseline":    {"category_macro_f1": 0.588, "urgency_macro_f1": 0.751, "review_rate": 0.82, "silent_errors": 6,
+                    "challenge_category_correct": 13, "challenge_urgency_correct": 16, "challenge_crisis_detected": 1},
+    "sbert":       {"category_macro_f1": 0.880, "urgency_macro_f1": 0.602, "review_rate": 0.42, "silent_errors": 34,
+                    "challenge_category_correct": 17, "challenge_urgency_correct": 16, "challenge_crisis_detected": 1},
+    "sbert+tfidf": {"category_macro_f1": 0.859, "urgency_macro_f1": 0.794, "review_rate": 0.45, "silent_errors": 31,
+                    "challenge_category_correct": 17, "challenge_urgency_correct": 20, "challenge_crisis_detected": 1}
+  }
+}

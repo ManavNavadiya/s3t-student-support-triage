@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>S3T Student Early Warning</title>
+<style>
+:root{
+  --bg:#f6f7f9; --card:#ffffff; --ink:#1b2430; --muted:#5d6b7c; --line:#e1e5ea;
+  --accent:#2f5bd8; --accent-ink:#ffffff;
+  --high:#c0392b; --high-bg:#fdeceb; --med:#b7791f; --med-bg:#fdf3dc; --low:#2f855a; --low-bg:#e6f4ec;
+  --chip:#eef1f5;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0f141b; --card:#171e28; --ink:#e8edf3; --muted:#9aa8b8; --line:#273141;
+    --accent:#6f95ff; --accent-ink:#0f141b;
+    --high:#ff8a7d; --high-bg:#3a1d1b; --med:#f2c260; --med-bg:#3a2f15; --low:#6fd29c; --low-bg:#14301f;
+    --chip:#222c3a;
+  }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:1100px;margin:0 auto;padding:24px 20px 48px}
+header{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;justify-content:space-between;margin-bottom:18px}
+h1{font-size:22px;margin:0}
+.sub{color:var(--muted);font-size:13px;margin-top:2px}
+.status{display:flex;gap:8px;flex-wrap:wrap}
+.pill{font-size:12px;padding:4px 10px;border-radius:999px;background:var(--chip);color:var(--muted);border:1px solid var(--line)}
+.pill b{color:var(--ink);font-weight:600}
+.pill.ok b{color:var(--low)} .pill.bad b{color:var(--high)} .pill.off b{color:var(--muted)}
+.grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:18px;align-items:start}
+@media (max-width:860px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.card h2{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 10px;display:flex;align-items:center;gap:8px}
+.step{display:inline-flex;width:20px;height:20px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font-size:11px;font-weight:700;align-items:center;justify-content:center}
+textarea{width:100%;min-height:210px;resize:vertical;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+input[type=text]{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+label{display:block;font-size:12px;color:var(--muted);margin:10px 0 4px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px}
+button{font:inherit;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:7px 12px;cursor:pointer}
+button:hover{border-color:var(--accent)}
+button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:600;padding:9px 18px}
+button:disabled{opacity:.55;cursor:wait}
+.count{margin-left:auto;font-size:12px;color:var(--muted)}
+details{margin-top:12px;font-size:13px;color:var(--muted)} summary{cursor:pointer}
+.stack{display:flex;flex-direction:column;gap:14px}
+.badge{display:inline-block;font-size:12px;font-weight:600;padding:3px 9px;border-radius:6px}
+.badge.HIGH,.badge.high{background:var(--high-bg);color:var(--high)}
+.badge.MEDIUM,.badge.medium{background:var(--med-bg);color:var(--med)}
+.badge.LOW,.badge.low{background:var(--low-bg);color:var(--low)}
+.badge.plain{background:var(--chip);color:var(--ink)}
+.badge.negative{background:var(--high-bg);color:var(--high)} .badge.positive{background:var(--low-bg);color:var(--low)} .badge.neutral{background:var(--chip);color:var(--ink)}
+.chip.neg{background:var(--high-bg);color:var(--high)} .chip.pos{background:var(--low-bg);color:var(--low)} .chip.dim{opacity:.75;font-style:italic}
+.aspects{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
+.aspects td,.aspects th{padding:5px 6px;border-top:1px solid var(--line);text-align:left;vertical-align:top}
+.aspects th{color:var(--muted);font-weight:500;font-size:12px}
+.aspects .clause{color:var(--muted)}
+.kv{display:grid;grid-template-columns:130px 1fr;gap:6px 12px;font-size:14px;margin:0}
+.kv dt{color:var(--muted)} .kv dd{margin:0}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{font-size:12px;background:var(--chip);padding:2px 8px;border-radius:6px}
+.bar{height:6px;border-radius:3px;background:var(--chip);overflow:hidden;margin-top:4px;max-width:220px}
+.bar>i{display:block;height:100%;background:var(--accent)}
+.banner{padding:10px 12px;border-radius:8px;font-size:14px;margin-top:10px}
+.banner.warn{background:var(--med-bg);color:var(--med)} .banner.err{background:var(--high-bg);color:var(--high)} .banner.info{background:var(--chip);color:var(--ink)}
+.mentor{display:grid;grid-template-columns:30px 1fr auto;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+.mentor:first-of-type{border-top:none}
+.rank{width:26px;height:26px;border-radius:50%;background:var(--chip);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
+.mentor .name{font-weight:600} .mentor .name a{color:inherit;text-decoration:none;border-bottom:1px dotted var(--muted)}
+.paper{font-size:13px;color:var(--muted);margin-top:2px}
+.nums{text-align:right;font-size:12px;color:var(--muted)} .nums b{color:var(--ink);font-size:14px}
+.empty{color:var(--muted);text-align:center;padding:48px 12px}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:s 0.8s linear infinite;vertical-align:-2px;margin-right:6px}
+@keyframes s{to{transform:rotate(360deg)}}
+footer{margin-top:22px;font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padding-top:12px}
+pre{white-space:pre-wrap;word-break:break-word;background:var(--bg);padding:10px;border-radius:8px;font-size:12px;max-height:320px;overflow:auto;color:var(--ink)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>S3T · Student Early Warning</h1>
+      <div class="sub">Group 6 student-support triage, with optional partner components: Group 5 course feedback and Group 7 mentor discovery</div>
+    </div>
+    <div class="status" id="status"></div>
+  </header>
+
+  <div class="grid">
+    <section class="card">
+      <h2><span class="step">0</span> Student email</h2>
+      <textarea id="text" maxlength="2000" aria-label="Student email"></textarea>
+      <div class="row">
+        <button type="button" data-sample="risk">At-risk student</button>
+        <button type="button" data-sample="pace">At risk · pace</button>
+        <button type="button" data-sample="feedback">Course feedback</button>
+        <button type="button" data-sample="routine">Routine query</button>
+        <button type="button" data-sample="nocourse">Unknown course</button>
+        <span class="count" id="count"></span>
+      </div>
+      <details>
+        <summary>Advanced</summary>
+        <label for="topic">Topic override (skips the course lookup)</label>
+        <input type="text" id="topic" placeholder="e.g. graph neural networks">
+        <label for="g7">Group 7 API address</label>
+        <input type="text" id="g7" placeholder="http://127.0.0.1:8080">
+        <label for="g5">Group 5 API address (or "off")</label>
+        <input type="text" id="g5" placeholder="as started (default http://127.0.0.1:8002)">
+      </details>
+      <div class="row"><button type="button" class="primary" id="go">Analyze</button></div>
+      <div id="msg"></div>
+    </section>
+
+    <section class="stack" id="out">
+      <div class="card empty">Pick a sample email or paste your own, then press <b>Analyze</b>.</div>
+    </section>
+  </div>
+
+  <footer>
+    <b>Advisory only.</b> A staff member decides every action; nothing is sent automatically. Group 6 was trained on
+    generated messages, so its accuracy on real students is unknown, and its crisis detection is a keyword list.
+    Group 5 was trained on course reviews, not help-request emails: it often has low confidence here, so it only
+    shapes the suggested support and never decides whether a student is at risk.
+    Group 7 ranks OpenAlex researchers by paper similarity; they are not necessarily this university's faculty, and
+    its confidence labels are not calibrated probabilities.
+  </footer>
+</div>
+
+<script>
+const SAMPLES = {
+  risk: "Dear Professor, I missed the M1 test of Natural Language Processing (CS 521) because I was unwell, and I have also not submitted some of my assignments. I am worried about failing. Could you please tell me the passing criterion for internal assessment? Is a make-up test possible?",
+  routine: "Hello, how do I request an official copy of my transcript? There is no rush, any time this month is fine.",
+  nocourse: "Hi, I missed the mid-sem exam of ZZ 999 and I have not submitted the last two assignments. I am worried about failing the course.",
+  pace: "Hello sir, the lectures in CS 410 go way too fast and I cannot follow them. I missed the quiz last week and I have not submitted two assignments. I am worried about failing. Regards, Student",
+  feedback: "Hi, some feedback on CS 410: the lectures are far too fast and the examples do not help at all. Otherwise I am doing fine, no action needed."
+};
+const $ = id => document.getElementById(id);
+function el(tag, cls, text){const e=document.createElement(tag); if(cls) e.className=cls; if(text!==undefined) e.textContent=text; return e;}
+function pct(x){return Math.round(x*100)+"%";}
+
+const ta=$("text");
+function setText(t){ta.value=t; $("count").textContent=t.length+" / 2000";}
+ta.addEventListener("input",()=>setText(ta.value));
+document.querySelectorAll("[data-sample]").forEach(b=>b.onclick=()=>setText(SAMPLES[b.dataset.sample]));
+setText(SAMPLES.risk);
+
+async function refreshStatus(){
+  const box=$("status"); box.replaceChildren();
+  try{
+    const s=await (await fetch("/api/status")).json();
+    const a=el("span","pill"); a.append("Group 6 model: ",el("b",null,s.s3t_model)); box.append(a);
+    const g5ok = s.group5==="ok";
+    const p5=el("span","pill "+(s.group5==="off"?"off":(g5ok?"ok":"bad"))); p5.append("Group 5: ",el("b",null,s.group5==="off"?"off":(g5ok?"up ("+(s.group5_source==="in-process"?"in-process":"API")+")":s.group5))); box.append(p5);
+    const ok = s.group7==="ready"||s.group7==="unloaded";
+    const g=el("span","pill "+(s.group7==="off"?"off":(ok?"ok":"bad"))); g.append("Group 7: ",el("b",null,s.group7==="off"?"not connected":(s.group7==="unloaded"?"up (loads on first query)":s.group7))); box.append(g);
+  }catch(e){const p=el("span","pill bad"); p.append(el("b",null,"UI server not reachable")); box.append(p);}
+}
+refreshStatus();
+
+function kv(rows){
+  const dl=el("dl","kv");
+  rows.forEach(([k,v])=>{dl.append(el("dt",null,k)); const dd=el("dd"); if(v instanceof Node) dd.append(v); else dd.textContent=v; dl.append(dd);});
+  return dl;
+}
+function chips(list,emptyText){
+  const c=el("div","chips"); if(!list.length){c.append(el("span","chip",emptyText||"none"));return c;}
+  list.forEach(x=>c.append(el("span","chip",x))); return c;
+}
+function conf(label,c){
+  const w=el("div"); w.append(el("span",null,label+" "+pct(c)));
+  const bar=el("div","bar"); const i=el("i"); i.style.width=pct(c); bar.append(i); w.append(bar); return w;
+}
+function card(n,title){const c=el("div","card"); const h=el("h2"); h.append(el("span","step",String(n)),title); c.append(h); return c;}
+
+function group5Card(fx){
+  const c=card(2,"Partner · Group 5 course experience (optional)");
+  if(!fx||fx.status==="off"){c.append(el("div","banner info","Optional partner component, not connected in this run. Group 6's decision does not depend on it."));return c;}
+  if(fx.status==="skipped"){c.append(el("div","banner err",fx.warnings.join(" ")));return c;}
+  if(fx.status!=="ok"){c.append(el("div","banner err","Group 5 could not analyse this message. "+fx.warnings.join(" ")+" The rest of the pipeline still ran."));return c;}
+  const o=fx.overall;
+  const neg=fx.concerns.map(x=>({t:x,c:"chip neg"})), tent=fx.tentative_concerns.map(x=>({t:x+" (low confidence)",c:"chip neg dim"}));
+  const cc=el("div","chips"); [...neg,...tent].forEach(x=>cc.append(el("span",x.c,x.t))); if(!neg.length&&!tent.length) cc.append(el("span","chip","none"));
+  const sc=el("div","chips"); fx.strengths.forEach(x=>sc.append(el("span","chip pos",x))); if(!fx.strengths.length) sc.append(el("span","chip","none"));
+  c.append(kv([
+    ["Overall tone", (()=>{const w=el("span"); w.append(el("span","badge "+o.label,o.label)," "+pct(o.confidence)+(o.low_confidence?" · low confidence":"")); return w;})()],
+    ["Concerns", cc],
+    ["Strengths", sc],
+    ["Support focus", fx.support_focus.length? fx.support_focus.join("; ") : "none (no confident concern)"]
+  ]));
+  if(fx.aspects.length){
+    const t=el("table","aspects"); const hr=el("tr"); ["Aspect","Sentiment","Conf.","Clause"].forEach(x=>hr.append(el("th",null,x))); t.append(hr);
+    fx.aspects.forEach(a=>{const r=el("tr"); r.append(el("td",null,a.aspect)); const s=el("td"); s.append(el("span","badge "+a.sentiment,a.sentiment)); r.append(s);
+      r.append(el("td",null,pct(a.confidence)+(a.confident?"":" ⚠"))); r.append(el("td","clause",a.clause)); t.append(r);});
+    const d=el("details"); d.append(el("summary",null,"Aspect evidence ("+fx.aspects.length+")"),t); c.append(d);
+  }
+  if(fx.course_feedback_item){
+    const i=fx.course_feedback_item;
+    c.append(el("div","banner info","Anonymised course-feedback item for the "+i.course_code+" coordinator: concerns ["+(i.concerns.join(", ")||"none")+"], strengths ["+(i.strengths.join(", ")||"none")+"]. No text or student id included; not sent automatically."));
+  }
+  if(o.low_confidence) c.append(el("div","banner warn","Group 5 is unsure about this message (it was trained on course reviews, not emails). Treat these readings as hints only."));
+  const sent=fx.removed_before_sending.length? "Removed before sending to Group 5: "+fx.removed_before_sending.join(", ")+"." : "Nothing needed removing before sending to Group 5.";
+  c.append(el("div","paper",sent+" Request id is random, not the student id. Source: "+fx.source+"."));
+  return c;
+}
+
+function render(data){
+  const out=$("out"); out.replaceChildren();
+  const s=data.s3t, h=data.handoff, ew=h.early_warning;
+
+  // 1. Group 6 triage
+  const c1=card(1,"Group 6 · Triage");
+  const rv = s.human_review.required ? "Yes — "+(s.human_review.reasons.join(", ")||"flagged") : "No";
+  c1.append(kv([
+    ["Category", el("span","badge plain",s.category.label)],
+    ["Category confidence", conf("",s.category.confidence)],
+    ["Urgency", el("span","badge "+s.urgency.label.toUpperCase(),s.urgency.label)],
+    ["Confidence band", el("span","badge "+s.confidence_band,s.confidence_band)],
+    ["Human review", rv],
+    ["Courses found", chips(s.entities.courses,"none")],
+    ["Deadlines", chips(s.entities.deadlines,"none")],
+    ["Emotions", chips(s.emotions,"none")],
+    ["Suggested route", s.recommended_action]
+  ]));
+  if(s.crisis_detected) c1.append(el("div","banner err","Crisis language detected. This needs a human to respond immediately; do not rely on automatic routing."));
+  if(s.model==="baseline") c1.append(el("div","banner warn","Running on the baseline model, which is less accurate than the hybrid model."));
+  out.append(c1);
+
+  // 2. Group 5 course experience
+  out.append(group5Card(h.course_experience));
+
+  // 3. early warning
+  const c2=card(3,"Early-warning decision");
+  const lvl=el("span","badge "+ew.level,ew.at_risk?"At risk · "+ew.level:"No academic risk found");
+  c2.append(kv([
+    ["Decision",lvl],
+    ["Signals in the email",chips(ew.signals,"none")],
+    ["Suggested action",ew.suggested_intervention],
+    ["Basis",ew.basis]
+  ]));
+  h.notes.filter(n=>!n.startsWith("Group 7 call failed")&&!n.startsWith("No course topic")&&!n.startsWith("Group 5 not used")&&!n.startsWith("Mentor search")).forEach(n=>c2.append(el("div","banner warn",n)));
+  out.append(c2);
+
+  // 3. topic + mentors
+  const c3=card(4,"Partner · Group 7 mentor matches (optional)");
+  if(h.status==="no_risk"){
+    c3.append(el("div","banner info","Not searched: this message does not look like academic risk, so no mentor search was run."));
+  }else if(h.status==="needs_topic"){
+    c3.append(el("div","banner warn","The course was not recognised, so no topic could be chosen. Add it to course_catalog.json or type a topic under Advanced."));
+  }else if(h.status==="group7_off"){
+    c3.append(el("div","banner info","Optional partner component, not connected. With Group 7 running, this topic would be sent (topic only, no email text or student id):"));
+    c3.append(kv([["Topic",el("span","badge plain",h.topic.topic||"—")],["Course",(h.topic.course_code||"—")+" ("+h.topic.source.replace("_"," ")+")"]]));
+  }else if(h.status==="group7_unavailable"){
+    c3.append(el("div","banner err","Group 7 could not be reached. "+(h.notes.find(n=>n.startsWith("Group 7 call failed"))||"")));
+    c3.append(kv([["Topic that would be searched",h.topic.topic||"—"]]));
+  }else{
+    c3.append(kv([["Topic searched",el("span","badge plain",h.topic.topic)],
+                  ["Course",(h.topic.course_code||"—")+" ("+h.topic.source.replace("_"," ")+")"]]));
+    const list=el("div"); list.style.marginTop="8px";
+    h.mentors.forEach(m=>{
+      const row=el("div","mentor"); row.append(el("div","rank",String(m.rank)));
+      const mid=el("div"); const nm=el("div","name");
+      if(/^https?:\/\//.test(m.author_id)){const a=el("a",null,m.name); a.href=m.author_id; a.target="_blank"; a.rel="noopener"; nm.append(a);} else nm.textContent=m.name;
+      mid.append(nm);
+      m.top_papers.forEach(p=>mid.append(el("div","paper",p.title+" ("+p.year+")")));
+      row.append(mid);
+      const nums=el("div","nums"); nums.append("match ",el("b",null,m.score.toFixed(2)),document.createElement("br"),"confidence "+m.confidence_level);
+      row.append(nums); list.append(row);
+    });
+    c3.append(list);
+    c3.append(el("div","banner info","“Confidence” here is Group 7’s own label and is not a calibrated probability; use the match score and the papers to judge relevance."));
+  }
+  out.append(c3);
+
+  const d=el("details"); d.append(el("summary",null,"Raw JSON")); const pre=el("pre"); pre.textContent=JSON.stringify(data,null,2); d.append(pre); out.append(d);
+}
+
+$("go").onclick=async()=>{
+  const btn=$("go"), msg=$("msg"); msg.replaceChildren();
+  btn.disabled=true; const old=btn.textContent; btn.textContent="Analyzing…";
+  const out=$("out"); out.replaceChildren();
+  const w=el("div","card empty"); w.append(el("span","spin"),"Running Group 6 (and any connected partner components). The first Group 7 query can take a minute while it loads."); out.append(w);
+  try{
+    const r=await fetch("/api/analyze",{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({text:ta.value,topic_override:$("topic").value,group7_url:$("g7").value,group5_url:$("g5").value})});
+    const data=await r.json();
+    if(!r.ok){out.replaceChildren(); msg.append(el("div","banner err",data.error||"Something went wrong.")); out.append(el("div","card empty","No result."));}
+    else render(data);
+  }catch(e){out.replaceChildren(); msg.append(el("div","banner err","Could not reach the demo server: "+e.message));}
+  btn.disabled=false; btn.textContent=old; refreshStatus();
+};
+</script>
+</body>
+</html>

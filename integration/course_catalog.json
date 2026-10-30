@@ -1,0 +1,9 @@
+{
+  "_comment": "EDIT ME: map course codes used at your university to a research-topic phrase for Group 7's search. Aliases are matched (case-insensitive) in the student's email when no code matches.",
+  "courses": {
+    "CS521": {"topic": "natural language processing", "aliases": ["natural language processing", "nlp", "snlp"]},
+    "CS410": {"topic": "machine learning", "aliases": ["machine learning", "ml"]},
+    "CS430": {"topic": "information retrieval", "aliases": ["information retrieval", "ir"]},
+    "STAT230": {"topic": "probability and statistics", "aliases": ["probability", "statistics"]}
+  }
+}

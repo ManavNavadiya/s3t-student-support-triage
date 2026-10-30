@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#3d4652"/>
+    </marker>
+    <style>
+      .t{font-size:20px;font-weight:700;fill:#1b2430}
+      .s{font-size:15px;fill:#4a5563}
+      .m{font-size:14px;fill:#4a5563}
+      .b{font-size:14px;fill:#1b2430;font-weight:700}
+      .edge{stroke:#3d4652;stroke-width:2.2;fill:none;marker-end:url(#a)}
+      .tag{font-size:13px;font-weight:700;fill:#fff}
+    </style>
+  </defs>
+  <rect width="1600" height="900" fill="#ffffff"/>
+  <text x="40" y="58" font-size="30" font-weight="700" fill="#1b2430">S3T architecture: from a student message to an advisory triage result</text>
+  <text x="40" y="88" class="s">Group 6 · one Python package (s3t) used as a module, a command line and an HTTP API; the same models and rules behind all three.</text>
+
+  <!-- row A -->
+  <rect x="40" y="150" width="200" height="270" rx="14" fill="#f3f4f6" stroke="#9aa3ae" stroke-width="2"/>
+  <text x="140" y="260" text-anchor="middle" class="t">Student</text>
+  <text x="140" y="286" text-anchor="middle" class="t">message</text>
+  <text x="140" y="316" text-anchor="middle" class="m">text + optional id</text>
+  <text x="140" y="338" text-anchor="middle" class="m">(1–2,000 characters)</text>
+
+  <g>
+    <rect x="280" y="150" width="280" height="270" rx="14" fill="#e8efff" stroke="#3d4c61" stroke-width="2.5"/>
+    <rect x="280" y="150" width="280" height="34" rx="14" fill="#3d4c61"/><rect x="280" y="170" width="280" height="14" fill="#3d4c61"/>
+    <text x="298" y="173" class="tag">01 · INPUT &amp; PREPROCESSING</text>
+    <text x="298" y="216" class="b">Validate</text>
+    <text x="298" y="237" class="m">trim, length 1–2,000, batch ≤ 100</text>
+    <text x="298" y="270" class="b">Normalise</text>
+    <text x="298" y="291" class="m">lower-case, stemmed tokens</text>
+    <text x="298" y="324" class="b">Features</text>
+    <text x="298" y="345" class="m">TF-IDF 1–2 grams</text>
+    <text x="298" y="366" class="m">+ MiniLM sentence embedding</text>
+    <text x="298" y="387" class="m">(384 numbers)</text>
+  </g>
+
+  <g>
+    <rect x="600" y="150" width="300" height="270" rx="14" fill="#e8efff" stroke="#3d4c61" stroke-width="2.5"/>
+    <rect x="600" y="150" width="300" height="34" rx="14" fill="#3d4c61"/><rect x="600" y="170" width="300" height="14" fill="#3d4c61"/>
+    <text x="618" y="173" class="tag">02 · NLP MODELS</text>
+    <text x="618" y="216" class="b">Hybrid sbert+tfidf (default)</text>
+    <text x="618" y="237" class="m">logistic regression per task</text>
+    <text x="618" y="270" class="b">Category · 5 classes</text>
+    <text x="618" y="291" class="m">Academic, Mental Health, Financial,</text>
+    <text x="618" y="312" class="m">Administrative, Technical</text>
+    <text x="618" y="345" class="b">Urgency · Low / Medium / High</text>
+    <text x="618" y="366" class="m">all class probabilities, confidence,</text>
+    <text x="618" y="387" class="m">margin to runner-up</text>
+  </g>
+
+  <g>
+    <rect x="940" y="150" width="300" height="270" rx="14" fill="#e8efff" stroke="#3d4c61" stroke-width="2.5"/>
+    <rect x="940" y="150" width="300" height="34" rx="14" fill="#3d4c61"/><rect x="940" y="170" width="300" height="14" fill="#3d4c61"/>
+    <text x="958" y="173" class="tag">03 · EXTRACTION &amp; RULES</text>
+    <text x="958" y="216" class="b">Extract</text>
+    <text x="958" y="237" class="m">courses, deadlines, blockers, emotions</text>
+    <text x="958" y="270" class="b">Guardrail rules</text>
+    <text x="958" y="291" class="m">R1 crisis language → High + review</text>
+    <text x="958" y="312" class="m">R2 deadline soon → urgency +1</text>
+    <text x="958" y="333" class="m">R3 category conf. &lt; 0.55 → review</text>
+    <text x="958" y="354" class="m">R4 final urgency High → review</text>
+    <text x="958" y="387" class="m">crisis lexicon: core + extended</text>
+  </g>
+
+  <g>
+    <rect x="1280" y="150" width="280" height="270" rx="14" fill="#e8efff" stroke="#3d4c61" stroke-width="2.5"/>
+    <rect x="1280" y="150" width="280" height="34" rx="14" fill="#3d4c61"/><rect x="1280" y="170" width="280" height="14" fill="#3d4c61"/>
+    <text x="1298" y="173" class="tag">04 · STRUCTURED RESULT</text>
+    <text x="1298" y="216" class="b">TriageResult (JSON)</text>
+    <text x="1298" y="240" class="m">category + urgency labels</text>
+    <text x="1298" y="261" class="m">probabilities, confidence band</text>
+    <text x="1298" y="282" class="m">entities, emotions, crisis flag</text>
+    <text x="1298" y="303" class="m">recommended action</text>
+    <text x="1298" y="324" class="m">human_review + reasons</text>
+    <text x="1298" y="345" class="m">meta: model, thresholds,</text>
+    <text x="1298" y="366" class="m">warnings, versions</text>
+    <text x="1298" y="399" class="b">advisory_only: true</text>
+  </g>
+
+  <path class="edge" d="M240,285 L276,285"/>
+  <path class="edge" d="M560,285 L596,285"/>
+  <path class="edge" d="M900,285 L936,285"/>
+  <path class="edge" d="M1240,285 L1276,285"/>
+
+  <!-- connector down to row B -->
+  <path class="edge" d="M1420,420 L1420,470 L500,470 L500,516"/>
+
+  <!-- row B -->
+  <g>
+    <rect x="280" y="520" width="440" height="230" rx="14" fill="#f3f4f6" stroke="#3d4c61" stroke-width="2.5"/>
+    <rect x="280" y="520" width="440" height="34" rx="14" fill="#3d4c61"/><rect x="280" y="540" width="440" height="14" fill="#3d4c61"/>
+    <text x="298" y="543" class="tag">05 · REUSABLE ASSET INTERFACES</text>
+    <text x="298" y="588" class="b">Python module</text>
+    <text x="460" y="588" class="m">Triage().predict(text)</text>
+    <text x="298" y="622" class="b">Command line</text>
+    <text x="460" y="622" class="m">python -m s3t triage | verify</text>
+    <text x="298" y="656" class="b">HTTP API</text>
+    <text x="460" y="656" class="m">POST /v1/triage, /v1/triage/batch</text>
+    <text x="460" y="677" class="m">GET /health, /v1/info</text>
+    <text x="298" y="716" class="m">One pydantic schema for all three; bad input → HTTP 422</text>
+  </g>
+
+  <g>
+    <rect x="780" y="520" width="400" height="230" rx="14" fill="#f3f4f6" stroke="#3d4c61" stroke-width="2.5"/>
+    <rect x="780" y="520" width="400" height="34" rx="14" fill="#3d4c61"/><rect x="780" y="540" width="400" height="14" fill="#3d4c61"/>
+    <text x="798" y="543" class="tag">06 · APPLICATION</text>
+    <text x="798" y="588" class="b">Staff demo page (port 5050)</text>
+    <text x="798" y="609" class="m">triage card + early-warning decision</text>
+    <text x="798" y="642" class="b">Early-warning bridge</text>
+    <text x="798" y="663" class="m">missed test + missing work → HIGH</text>
+    <text x="798" y="684" class="m">course code → research topic</text>
+    <text x="798" y="716" class="m">A staff member decides every action</text>
+  </g>
+
+  <g>
+    <rect x="1240" y="520" width="320" height="230" rx="14" fill="#ffffff" stroke="#9aa3ae" stroke-width="2" stroke-dasharray="9 7"/>
+    <text x="1258" y="556" class="b">Partner services (optional)</text>
+    <text x="1258" y="590" class="b">Group 5 · feedback API</text>
+    <text x="1258" y="611" class="m">receives cleaned text, random id</text>
+    <text x="1258" y="644" class="b">Group 7 · discovery API</text>
+    <text x="1258" y="665" class="m">receives the topic phrase only</text>
+    <text x="1258" y="716" class="m">S3T works without them</text>
+  </g>
+
+  <path class="edge" d="M720,635 L776,635"/>
+  <path class="edge" d="M1180,635 L1236,635" stroke-dasharray="7 5"/>
+
+  <text x="40" y="560" class="b">Privacy</text>
+  <text x="40" y="584" class="m">text never logged</text>
+  <text x="40" y="606" class="m">or echoed back;</text>
+  <text x="40" y="628" class="m">id only for</text>
+  <text x="40" y="650" class="m">correlation</text>
+
+  <text x="40" y="830" class="m">Models are trained offline (Weeks 2–5) and loaded from s3t/resources/models; the asset never retrains. Review threshold 0.55 is calibrated on training data (s3t calibrate).</text>
+</svg>

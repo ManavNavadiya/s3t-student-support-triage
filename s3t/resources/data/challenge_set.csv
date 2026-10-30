@@ -1,0 +1,31 @@
+text,category,urgency,crisis,note
+"Can't sign in to the student portal since morning, assignment due tonight.",Technical Support,High,False,paraphrase: 'sign in' instead of 'log in'
+My attendance is below 75% in DBMS and I've been told I may be detained from the end-sem exam.,Academic Difficulty,High,False,Indian-university terms
+Fees receipt not generated even though money was deducted from my bank account.,Financial Aid,Medium,False,"fees, not 'tuition'"
+The hostel office says I need a bonafide certificate by Friday for my scholarship form.,Administrative,Medium,False,mentions scholarship but is a document request
+"I'm fine, just want to know where the counselling centre is.",Mental Health & Wellbeing,Low,False,British spelling 'counselling'
+I don't want to live like this anymore.,Mental Health & Wellbeing,High,True,crisis phrasing not in lexicon
+Nobody would even notice if I disappeared.,Mental Health & Wellbeing,High,True,indirect crisis language
+"I'm not stressed at all about the exams, just asking about the syllabus for unit 3.",Academic Difficulty,Low,False,negation
+"Mera scholarship abhi tak nahi aaya, rent dena hai is week.",Financial Aid,Medium,False,Hinglish (code-mixed)
+pls help asap!!! cant login canvas exam in 30 mins,Technical Support,High,False,very informal + '30 mins'
+Could you share the procedure for name correction on my degree certificate?,Administrative,Low,False,unseen request type
+I got 32/100 in the Physics midsem and I'm panicking about passing.,Academic Difficulty,Medium,False,'midsem' unseen
+The Wi-Fi in the library keeps disconnecting.,Technical Support,Low,False,unseen tech issue
+My father lost his job and I may not be able to pay next semester's fees.,Financial Aid,Medium,False,family context
+I have been crying every night and can't get out of bed for classes.,Mental Health & Wellbeing,Medium,False,mentions classes
+The fee payment gateway is showing an error and today is the last date.,Financial Aid,High,False,ambiguous: technical error + fee deadline
+"Thanks for the help last week, everything is sorted now!",Out of scope,Low,False,no issue at all
+I think there is a calculation mistake in my internal marks for CS 201.,Administrative,Medium,False,grade correction
+I want to drop MATH 101 before the deadline tomorrow.,Administrative,High,False,deadline tomorrow
+My visa extension needs an enrolment letter and the embassy appointment is on Monday.,Administrative,High,False,spelling 'enrolment'
+"Feeling a bit homesick, are there any student clubs I can join?",Mental Health & Wellbeing,Low,False,mild wellbeing
+The zoom link for my online viva is not opening.,Technical Support,Medium,False,"'viva', 'zoom' unseen"
+"Need an extension for my assignment, I was sick with dengue for two weeks.",Academic Difficulty,Medium,False,medical reason
+My roommate keeps threatening me and I don't feel safe in the hostel.,Mental Health & Wellbeing,High,True,"safety, crisis lexicon should fire"
+When will the scholarship results be announced?,Financial Aid,Low,False,simple
+Exam cell has marked me absent for an exam I actually attended.,Administrative,Medium,False,record error
+hi,Out of scope,Low,False,empty / too short
+I failed two subjects and my parents don't know. I don't know what to do.,Academic Difficulty,High,False,academic + distress
+The ERP shows a fine of Rs 5000 that I already paid.,Financial Aid,Medium,False,'ERP' sounds technical
+I can't afford the bus pass this month so I keep missing lectures.,Financial Aid,Medium,False,"financial cause, academic effect"

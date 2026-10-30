@@ -1,0 +1,385 @@
+{
+  "asset_version": "1.0.0",
+  "created": "2026-10-11T20:03:17",
+  "contract": [
+    [
+      "Output matches the schema",
+      true,
+      "10 results validate against the schema"
+    ],
+    [
+      "Probabilities are consistent",
+      true,
+      "label sets, sum = 1, confidence = max probability"
+    ],
+    [
+      "Batch equals single calls",
+      true,
+      "predict() and predict_batch() agree on 10 messages"
+    ],
+    [
+      "Deterministic",
+      true,
+      ""
+    ],
+    [
+      "Input validation",
+      true,
+      "empty / blank / too long / non-string rejected with ValueError"
+    ],
+    [
+      "Crisis rule forces High + review",
+      true,
+      ""
+    ],
+    [
+      "Deadline and confidence rules",
+      true,
+      ""
+    ],
+    [
+      "Message text is not echoed; id is",
+      true,
+      ""
+    ],
+    [
+      "Output is JSON-serialisable",
+      true,
+      ""
+    ],
+    [
+      "HTTP API",
+      true,
+      "health, triage, batch, 422 validation, API key"
+    ]
+  ],
+  "regression": [
+    {
+      "model": "baseline",
+      "metric": "category_macro_f1",
+      "week5": 0.588,
+      "now": 0.588,
+      "tolerance": 0.01,
+      "pass": true
+    },
+    {
+      "model": "baseline",
+      "metric": "urgency_macro_f1",
+      "week5": 0.751,
+      "now": 0.751,
+      "tolerance": 0.01,
+      "pass": true
+    },
+    {
+      "model": "baseline",
+      "metric": "review_rate",
+      "week5": 0.82,
+      "now": 0.823,
+      "tolerance": 0.01,
+      "pass": true
+    },
+    {
+      "model": "baseline",
+      "metric": "silent_errors",
+      "week5": 6,
+      "now": 6,
+      "tolerance": 2,
+      "pass": true
+    },
+    {
+      "model": "baseline",
+      "metric": "challenge_category_correct",
+      "week5": 13,
+      "now": 13,
+      "tolerance": 2,
+      "pass": true
+    },
+    {
+      "model": "baseline",
+      "metric": "challenge_urgency_correct",
+      "week5": 16,
+      "now": 16,
+      "tolerance": 2,
+      "pass": true
+    },
+    {
+      "model": "baseline",
+      "metric": "challenge_crisis_detected",
+      "week5": 1,
+      "now": 1,
+      "tolerance": 2,
+      "pass": true
+    },
+    {
+      "model": "sbert",
+      "metric": "category_macro_f1",
+      "week5": 0.88,
+      "now": 0.88,
+      "tolerance": 0.01,
+      "pass": true
+    },
+    {
+      "model": "sbert",
+      "metric": "urgency_macro_f1",
+      "week5": 0.602,
+      "now": 0.602,
+      "tolerance": 0.01,
+      "pass": true
+    },
+    {
+      "model": "sbert",
+      "metric": "review_rate",
+      "week5": 0.42,
+      "now": 0.421,
+      "tolerance": 0.01,
+      "pass": true
+    },
+    {
+      "model": "sbert",
+      "metric": "silent_errors",
+      "week5": 34,
+      "now": 34,
+      "tolerance": 2,
+      "pass": true
+    },
+    {
+      "model": "sbert",
+      "metric": "challenge_category_correct",
+      "week5": 17,
+      "now": 17,
+      "tolerance": 2,
+      "pass": true
+    },
+    {
+      "model": "sbert",
+      "metric": "challenge_urgency_correct",
+      "week5": 16,
+      "now": 16,
+      "tolerance": 2,
+      "pass": true
+    },
+    {
+      "model": "sbert",
+      "metric": "challenge_crisis_detected",
+      "week5": 1,
+      "now": 1,
+      "tolerance": 2,
+      "pass": true
+    },
+    {
+      "model": "sbert+tfidf",
+      "metric": "category_macro_f1",
+      "week5": 0.859,
+      "now": 0.859,
+      "tolerance": 0.01,
+      "pass": true
+    },
+    {
+      "model": "sbert+tfidf",
+      "metric": "urgency_macro_f1",
+      "week5": 0.794,
+      "now": 0.794,
+      "tolerance": 0.01,
+      "pass": true
+    },
+    {
+      "model": "sbert+tfidf",
+      "metric": "review_rate",
+      "week5": 0.45,
+      "now": 0.448,
+      "tolerance": 0.01,
+      "pass": true
+    },
+    {
+      "model": "sbert+tfidf",
+      "metric": "silent_errors",
+      "week5": 31,
+      "now": 31,
+      "tolerance": 2,
+      "pass": true
+    },
+    {
+      "model": "sbert+tfidf",
+      "metric": "challenge_category_correct",
+      "week5": 17,
+      "now": 17,
+      "tolerance": 2,
+      "pass": true
+    },
+    {
+      "model": "sbert+tfidf",
+      "metric": "challenge_urgency_correct",
+      "week5": 20,
+      "now": 20,
+      "tolerance": 2,
+      "pass": true
+    },
+    {
+      "model": "sbert+tfidf",
+      "metric": "challenge_crisis_detected",
+      "week5": 1,
+      "now": 1,
+      "tolerance": 2,
+      "pass": true
+    }
+  ],
+  "default_test": {
+    "n": 299,
+    "model": "sbert+tfidf",
+    "thresholds": {
+      "category": 0.55,
+      "urgency": 0.0
+    },
+    "review_rate": 0.4682274247491639,
+    "n_out_of_scope": 0,
+    "n_category": 299,
+    "category_accuracy": 0.8595317725752508,
+    "category_macro_f1": 0.8586253367550467,
+    "category_report": "                           precision    recall  f1-score   support\n\n      Academic Difficulty       1.00      0.89      0.94        55\nMental Health & Wellbeing       1.00      0.77      0.87        56\n            Financial Aid       0.84      0.97      0.90        70\n           Administrative       0.95      0.64      0.77        59\n        Technical Support       0.69      1.00      0.81        59\n\n                 accuracy                           0.86       299\n                macro avg       0.90      0.85      0.86       299\n             weighted avg       0.89      0.86      0.86       299\n",
+    "silent_errors": 21,
+    "wrong_but_flagged": 21,
+    "calibration": [
+      {
+        "bin": "0.0-0.5",
+        "n": 37,
+        "mean_confidence": 0.429,
+        "accuracy": 0.541
+      },
+      {
+        "bin": "0.5-0.7",
+        "n": 35,
+        "mean_confidence": 0.584,
+        "accuracy": 0.8
+      },
+      {
+        "bin": "0.7-0.9",
+        "n": 81,
+        "mean_confidence": 0.838,
+        "accuracy": 0.79
+      },
+      {
+        "bin": "0.9-1.0",
+        "n": 146,
+        "mean_confidence": 0.949,
+        "accuracy": 0.993
+      }
+    ],
+    "n_templates": 15,
+    "templates_with_category_error": 5,
+    "n_urgency": 299,
+    "urgency_accuracy": 0.8193979933110368,
+    "urgency_macro_f1": 0.7938515688057914,
+    "high_recall": 0.9814814814814815,
+    "high_precision": 0.5145631067961165,
+    "silent_urgency_errors": 4,
+    "wrong_urgency_but_flagged": 50,
+    "true_high_missed_unflagged": 1,
+    "n_true_high": 54,
+    "templates_with_urgency_error": 7,
+    "confidence_bands": {
+      "medium": 104,
+      "low": 49,
+      "high": 146
+    }
+  },
+  "default_challenge": {
+    "n": 30,
+    "model": "sbert+tfidf",
+    "thresholds": {
+      "category": 0.55,
+      "urgency": 0.0
+    },
+    "review_rate": 0.6333333333333333,
+    "n_out_of_scope": 2,
+    "n_category": 28,
+    "category_accuracy": 0.6071428571428571,
+    "category_macro_f1": 0.5919658119658119,
+    "category_report": "                           precision    recall  f1-score   support\n\n      Academic Difficulty       0.50      0.40      0.44         5\nMental Health & Wellbeing       0.83      0.83      0.83         6\n            Financial Aid       0.80      0.57      0.67         7\n           Administrative       0.50      0.33      0.40         6\n        Technical Support       0.44      1.00      0.62         4\n\n                 accuracy                           0.61        28\n                macro avg       0.62      0.63      0.59        28\n             weighted avg       0.64      0.61      0.60        28\n",
+    "silent_errors": 3,
+    "wrong_but_flagged": 8,
+    "calibration": [
+      {
+        "bin": "0.0-0.5",
+        "n": 6,
+        "mean_confidence": 0.403,
+        "accuracy": 0.167
+      },
+      {
+        "bin": "0.5-0.7",
+        "n": 7,
+        "mean_confidence": 0.607,
+        "accuracy": 0.143
+      },
+      {
+        "bin": "0.7-0.9",
+        "n": 7,
+        "mean_confidence": 0.792,
+        "accuracy": 1.0
+      },
+      {
+        "bin": "0.9-1.0",
+        "n": 8,
+        "mean_confidence": 0.956,
+        "accuracy": 1.0
+      }
+    ],
+    "n_urgency": 28,
+    "urgency_accuracy": 0.75,
+    "urgency_macro_f1": 0.7682186234817814,
+    "high_recall": 0.9,
+    "high_precision": 0.6428571428571429,
+    "silent_urgency_errors": 2,
+    "wrong_urgency_but_flagged": 5,
+    "true_high_missed_unflagged": 1,
+    "n_true_high": 10,
+    "crisis_detected": 3,
+    "crisis_total": 3,
+    "crisis_false_alarms": 0,
+    "crisis_distinct_texts": 3,
+    "confidence_bands": {
+      "high": 8,
+      "low": 10,
+      "medium": 12
+    }
+  },
+  "crisis": [
+    {
+      "lexicon": "core",
+      "challenge_detected": 1,
+      "challenge_total": 3,
+      "false_alarms": 0,
+      "checked_non_crisis": 317
+    },
+    {
+      "lexicon": "extended",
+      "challenge_detected": 3,
+      "challenge_total": 3,
+      "false_alarms": 0,
+      "checked_non_crisis": 317
+    }
+  ],
+  "performance": [
+    {
+      "model": "baseline",
+      "load_s": 0.01,
+      "p50_ms": 1.4,
+      "p95_ms": 1.6,
+      "batch_msgs_per_s": 2706.6
+    },
+    {
+      "model": "sbert",
+      "load_s": 0.0,
+      "p50_ms": 7.4,
+      "p95_ms": 8.3,
+      "batch_msgs_per_s": 1170.7
+    },
+    {
+      "model": "sbert+tfidf",
+      "load_s": 0.01,
+      "p50_ms": 8.6,
+      "p95_ms": 9.7,
+      "batch_msgs_per_s": 754.5
+    }
+  ],
+  "all_passed": true
+}
