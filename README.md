@@ -119,7 +119,7 @@ Details: [`integration/INTEGRATION.md`](integration/INTEGRATION.md), [`integrati
 
 | Name | Roll no. |
 |---|---|
-| Arul Nanda | J032 |
+| Arul Nanda | J031 |
 | Manav Navadiya | J032 |
 | Utkarsh Nigam | J034 |
 | Sitanshu Nisar | J035 |
