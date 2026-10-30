@@ -1,6 +1,6 @@
 {
   "asset_version": "1.0.0",
-  "created": "2026-10-11T20:03:17",
+  "created": "2026-10-31T00:40:55",
   "contract": [
     [
       "Output matches the schema",
@@ -361,24 +361,24 @@
   "performance": [
     {
       "model": "baseline",
-      "load_s": 0.01,
-      "p50_ms": 1.4,
-      "p95_ms": 1.6,
-      "batch_msgs_per_s": 2706.6
+      "load_s": 0.0,
+      "p50_ms": 0.7,
+      "p95_ms": 0.9,
+      "batch_msgs_per_s": 5184.6
     },
     {
       "model": "sbert",
       "load_s": 0.0,
-      "p50_ms": 7.4,
-      "p95_ms": 8.3,
-      "batch_msgs_per_s": 1170.7
+      "p50_ms": 4.4,
+      "p95_ms": 6.5,
+      "batch_msgs_per_s": 1606.5
     },
     {
       "model": "sbert+tfidf",
-      "load_s": 0.01,
-      "p50_ms": 8.6,
-      "p95_ms": 9.7,
-      "batch_msgs_per_s": 754.5
+      "load_s": 0.0,
+      "p50_ms": 6.1,
+      "p95_ms": 7.5,
+      "batch_msgs_per_s": 857.2
     }
   ],
   "all_passed": true

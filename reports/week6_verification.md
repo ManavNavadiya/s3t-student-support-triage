@@ -1,6 +1,6 @@
 # S3T asset 1.0.0 - verification report
 
-Run 2026-10-11T20:03:17 | Python 3.11.14 on Darwin | scikit-learn 1.9.1 | sentence-transformers 6.1.0 | torch 2.14.1 | pydantic 2.14.0 | fastapi 0.143.0
+Run 2026-10-31T00:40:55 | Python 3.11.14 on Darwin | scikit-learn 1.9.1 | sentence-transformers 6.2.0 | torch 2.15.0 | pydantic 2.14.2 | fastapi 0.162.0
 
 **Overall: ALL CHECKS PASSED**  (models verified: baseline, sbert, sbert+tfidf; default model in use: `sbert+tfidf`)
 
@@ -153,6 +153,6 @@ The extended phrases were written after the challenge set showed the gaps, so th
 
 | Model | Load time (s) | Single message p50 (ms) | p95 (ms) | Batch of 100 (messages/s) |
 |---|---|---|---|---|
-| baseline | 0.01 | 1.4 | 1.6 | 2706.6 |
-| sbert | 0.0 | 7.4 | 8.3 | 1170.7 |
-| sbert+tfidf | 0.01 | 8.6 | 9.7 | 754.5 |
+| baseline | 0.0 | 0.7 | 0.9 | 5184.6 |
+| sbert | 0.0 | 4.4 | 6.5 | 1606.5 |
+| sbert+tfidf | 0.0 | 6.1 | 7.5 | 857.2 |
